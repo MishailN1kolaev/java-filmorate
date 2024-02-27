@@ -25,6 +25,7 @@ public class UserController {
         log.info("Пользователь '{}' был сохранен с идентификатором '{}'", user.getEmail(), user.getId());
         return user;
     }
+
     @ResponseBody
     @PutMapping
     public User update(@Valid @RequestBody User user) {
@@ -44,7 +45,6 @@ public class UserController {
         log.info("Количество пользователей: '{}'", users.size());
         return new ArrayList<>(users.values());
     }
-
 
     private void userValidation(User user) {
 
