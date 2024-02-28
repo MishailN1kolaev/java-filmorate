@@ -9,12 +9,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Map;
 
 @Slf4j
 @RequestMapping("/users")
 @RestController
 public class UserController {
-    private final HashMap<Integer, User> users = new HashMap<>();
+    private final Map<Integer, User> users = new HashMap<>();
     private int id = 0;
 
     @ResponseBody
