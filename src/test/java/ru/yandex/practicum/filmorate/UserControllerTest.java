@@ -25,7 +25,7 @@ public class UserControllerTest {
             LocalDate.of(1990, 1, 1), new HashSet<>());
     private final User incorrectEmailUser = new User(3L, "cucumber",
             "pamp", "Andrew", LocalDate.of(1997, 8, 13), new HashSet<>());
-    private final User emptyEmailUser = new User(1L, "msms@yandex.ru", "money", null,
+    private final User emptyEmailUser = new User(1L, "", "money", null,
             LocalDate.of(1990, 1, 1), new HashSet<>());
     private final User commonFriend = new User(19L, "strongman@yandex.ru", "strongman", "Kirill",
             LocalDate.of(1996, 4, 20), new HashSet<>());
