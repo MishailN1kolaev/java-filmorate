@@ -52,7 +52,7 @@ public class UserService {
         User user = userStorage.getUserById(userId);
         Set<Long> friends = user.getFriends();
         if (friends.isEmpty()) {
-            throw new ObjectNotFoundException("User should have 0 friends");
+            log.info("User should have 0 friends");
         }
         return friends.stream()
                 .map(userStorage::getUserById)
