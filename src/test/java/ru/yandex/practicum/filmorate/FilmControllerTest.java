@@ -22,8 +22,8 @@ public class FilmControllerTest {
     private FilmStorage storage = new InMemoryFilmStorage();
     private UserStorage userStorage = new InMemoryUserStorage();
     private UserService userService = new UserService(userStorage);
-    private FilmService service = new FilmService(storage, userService);
-    private FilmController controller = new FilmController(storage, service);
+    private FilmService service = new FilmService(storage);
+    private FilmController controller = new FilmController(service);
     private final Film film = new Film(1L, "TITANIK", "Just for cry",
             LocalDate.of(2020, 2, 2), 120, new HashSet<>());
     private final Film updatedFilm = new Film(1L, "Movie",
@@ -32,27 +32,7 @@ public class FilmControllerTest {
     private final Film noNamedFilm = new Film(1L, "", "kek",
             LocalDate.of(2020, 2, 2), 120, new HashSet<>());
     private final Film longDescpriptionFilm = new Film(1L, "Lord of the Ring",
-            "Я в своем познании настолько преисполнился, что я как будто бы уже\n" +
-                    "\n" +
-                    "сто триллионов миллиардов лет проживаю на триллионах и\n" +
-                    "\n" +
-                    "триллионах таких же планет, как эта Земля, мне этот мир абсолютно\n" +
-                    "\n" +
-                    "понятен, и я здесь ищу только одного - покоя, умиротворения и\n" +
-                    "\n" +
-                    "вот этой гармонии, от слияния с бесконечно вечным, от созерцания\n" +
-                    "\n" +
-                    "великого фрактального подобия и от вот этого замечательного всеединства\n" +
-                    "\n" +
-                    "существа, бесконечно вечного, куда ни посмотри, хоть вглубь - бесконечно\n" +
-                    "\n" +
-                    "малое, хоть ввысь - бесконечное большое, понимаешь? А ты мне опять со\n" +
-                    "\n" +
-                    "своим вот этим, иди суетись дальше, это твоё распределение, это\n" +
-                    "\n" +
-                    "твой путь и твой горизонт познания и ощущения твоей природы, он\n" +
-                    "\n" +
-                    "несоизмеримо мелок по сравнению с моим, понимаешь? ",
+            "",
             LocalDate.of(2020, 2, 2), 120, new HashSet<>());
     private final Film negativeDurationFilm = new Film(1L, "BYMER",
             "EMA",

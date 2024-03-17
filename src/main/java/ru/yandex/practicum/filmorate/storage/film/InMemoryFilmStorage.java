@@ -2,7 +2,7 @@ package ru.yandex.practicum.filmorate.storage.film;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import ru.yandex.practicum.filmorate.exception.ObjectNotFoundException;
+import ru.yandex.practicum.filmorate.exception.EntityNotFoundException;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
 
@@ -12,11 +12,10 @@ import java.util.*;
 @Slf4j
 @Component
 public class InMemoryFilmStorage implements FilmStorage {
-    private final Map<Long, Film> films;
+    private final Map<Long, Film> films = new HashMap<>();
     private Long id;
 
     public InMemoryFilmStorage() {
-        films = new HashMap<>();
         id = 0L;
     }
 
@@ -36,7 +35,7 @@ public class InMemoryFilmStorage implements FilmStorage {
             log.info("'{}' фильм был обновлен в библиотеке, идентификатор - '{}'", film.getName(), film.getId());
             return film;
         } else {
-            throw new ObjectNotFoundException("Попытка обновить несуществующий фильм");
+            throw new EntityNotFoundException("Попытка обновить несуществующий фильм");
         }
     }
 
@@ -49,7 +48,7 @@ public class InMemoryFilmStorage implements FilmStorage {
     @Override
     public Film getFilmById(Long id) {
         if (!films.containsKey(id)) {
-            throw new ObjectNotFoundException("Попытка получить доступ к несуществующему фильму с идентификатором'" + id + "'");
+            throw new EntityNotFoundException("Попытка получить доступ к несуществующему фильму с идентификатором'" + id + "'");
         }
         return films.get(id);
     }

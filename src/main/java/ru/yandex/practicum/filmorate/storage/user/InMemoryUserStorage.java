@@ -2,7 +2,7 @@ package ru.yandex.practicum.filmorate.storage.user;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import ru.yandex.practicum.filmorate.exception.ObjectNotFoundException;
+import ru.yandex.practicum.filmorate.exception.EntityNotFoundException;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
 
@@ -12,11 +12,10 @@ import java.util.*;
 @Slf4j
 @Component
 public class InMemoryUserStorage implements UserStorage {
-    private final Map<Long, User> users;
+    private final Map<Long, User>  users = new HashMap<>();;
     private Long id;
 
     public InMemoryUserStorage() {
-        users = new HashMap<>();
         id = 0L;
     }
 
@@ -36,7 +35,7 @@ public class InMemoryUserStorage implements UserStorage {
             log.info("{}' информация с идентификатором '{}' была обновлена", user.getLogin(), user.getId());
             return user;
         } else {
-            throw new ObjectNotFoundException("Попытка обновить несуществующего пользователя");
+            throw new EntityNotFoundException("Попытка обновить несуществующего пользователя");
         }
     }
 
@@ -49,7 +48,7 @@ public class InMemoryUserStorage implements UserStorage {
     @Override
     public User getUserById(Long id) {
         if (!users.containsKey(id)) {
-            throw new ObjectNotFoundException("Пользователя с идентификатором '" + id + "' не существует");
+            throw new EntityNotFoundException("Пользователя с идентификатором '" + id + "' не существует");
         }
         return users.get(id);
     }
