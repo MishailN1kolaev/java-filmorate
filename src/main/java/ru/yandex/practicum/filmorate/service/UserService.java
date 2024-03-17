@@ -1,6 +1,5 @@
 package ru.yandex.practicum.filmorate.service;
 
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -11,7 +10,6 @@ import ru.yandex.practicum.filmorate.storage.user.UserStorage;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@Getter
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -54,11 +52,14 @@ public class UserService {
         User user = userStorage.getUserById(userId);
         Set<Long> friends = user.getFriends();
         if (friends.isEmpty()) {
-            throw new ObjectNotFoundException("User's friends' list with id '" + userId + "' is empty");
+            throw new ObjectNotFoundException("User should have 0 friends");
         }
         return friends.stream()
                 .map(userStorage::getUserById)
                 .collect(Collectors.toList());
     }
 
+    public UserStorage getUserStorage() {
+        return userStorage;
+    }
 }

@@ -30,10 +30,10 @@ public class UserControllerTest {
     private final User commonFriend = new User(19L, "friend@yandex.ru", "friend", "Alexander",
             LocalDate.of(1996, 4, 20), new HashSet<>());
 
-    @AfterEach
-    public void afterEach() {
-        storage.deleteUsers();
-    }
+    //@AfterEach
+   // public void afterEach() {
+    //    storage.deleteUsers();
+   // }
 
     @Test
     void createUser_shouldCreateAUser() {
