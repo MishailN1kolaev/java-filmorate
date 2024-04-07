@@ -12,11 +12,7 @@ import ru.yandex.practicum.filmorate.service.validation.Validation;
 import ru.yandex.practicum.filmorate.storage.user.UserStorage;
 
 import java.time.LocalDate;
-import java.util.Optional;
-import java.util.List;
-import java.util.Set;
-import java.util.HashSet;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -105,19 +101,20 @@ public class UserServiceImpl implements UserService {
         if (user.isEmpty()) {
             throw new IncorrectIdException("Пользователь не найден");
         }
-        ArrayList<User> userFriends = new ArrayList<>();
+
+        // Получаем всех друзей пользователя за один запрос
         Set<Integer> idFriends = new HashSet<>(storage.getAllIdFriends(id));
-        if (idFriends.isEmpty()) {
-            return userFriends;
+        Map<Integer, User> userMap = new HashMap<>();
+        for (Integer userId : idFriends) {
+            Optional<User> friend = storage.getUserById(userId);
+            friend.ifPresent(value -> userMap.put(userId, value));
         }
-        for (Integer i : idFriends) {
-            Optional<User> currentUser = storage.getUserById(i);
-            if (currentUser.isPresent()) {
-                userFriends.add(currentUser.get());
-            }
-        }
+
+        // Создаем список друзей из мапы
+        List<User> userFriends = new ArrayList<>(userMap.values());
         return userFriends;
     }
+
 
     @Override
     public List<User> getСommonFriends(int firstUserId, int secondUserId) {

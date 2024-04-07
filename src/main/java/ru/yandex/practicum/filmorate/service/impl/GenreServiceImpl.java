@@ -20,16 +20,6 @@ public class GenreServiceImpl implements GenreService {
     }
 
     @Override
-    public Genre addGenre(Genre genre) {
-        return null;
-    }
-
-    @Override
-    public Genre updateGenre(Genre genre) {
-        return null;
-    }
-
-    @Override
     public Genre getGenreById(int id) {
         return storage.getGenreById(id).orElseThrow(() -> new IncorrectIdException("wrong id"));
     }
