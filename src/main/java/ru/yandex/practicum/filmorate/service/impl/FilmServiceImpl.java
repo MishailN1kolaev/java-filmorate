@@ -129,7 +129,7 @@ public class FilmServiceImpl implements FilmService {
             log.error("Ошибка в данных запроса к эндпоинту:{} /films ', : '{}'", method, film);
             throw new ValidationException("продолжительность фильма должна быть положительным числом");
         }
-        if (film.getMpa().getId() < 0 || film.getMpa().getId() > 4) {
+        if (film.getMpa().getId() < 0 || film.getMpa().getId() > 5) {
             log.error("Ошибка в данных запроса к эндпоинту:{} /films ', : '{}'", method, film);
             throw new ValidationException("Непраильно задана MPA");
         }
