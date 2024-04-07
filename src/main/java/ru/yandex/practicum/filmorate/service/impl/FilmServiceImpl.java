@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.exeption.IncorrectIdException;
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.model.Genre;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.service.FilmService;
 import ru.yandex.practicum.filmorate.service.validation.Validation;
@@ -127,6 +128,16 @@ public class FilmServiceImpl implements FilmService {
         if (film.getDuration() < 0) {
             log.error("Ошибка в данных запроса к эндпоинту:{} /films ', : '{}'", method, film);
             throw new ValidationException("продолжительность фильма должна быть положительным числом");
+        }
+        if (film.getMpa().getId() < 0 || film.getMpa().getId() > 4) {
+            log.error("Ошибка в данных запроса к эндпоинту:{} /films ', : '{}'", method, film);
+            throw new ValidationException("Непраильно задана MPA");
+        }
+        for (Genre genre : film.getGenres()) {
+            if (genre.getId()>5) {
+                log.error("Ошибка в данных запроса к эндпоинту:{} /films ', : '{}'", method, film);
+                throw new ValidationException("Непраильно задана Genre");
+            }
         }
     }
 }

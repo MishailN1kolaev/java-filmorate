@@ -91,7 +91,7 @@ public class UserServiceImpl implements UserService {
         }
         int i = storage.deleteFriendById(userId, friendId);
         if (i <= 0) {
-            throw new IncorrectIdException("Пользователь не найден в друзьях");
+          log.info("Пользователь не найден в друзьях");
         }
         Set<Integer> userFriends = new HashSet<>(storage.getAllIdFriends(userId));
         user.get().getFriends().clear();
