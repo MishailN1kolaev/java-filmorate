@@ -134,7 +134,7 @@ public class FilmServiceImpl implements FilmService {
             throw new ValidationException("Непраильно задана MPA");
         }
         for (Genre genre : film.getGenres()) {
-            if (genre.getId()>5) {
+            if (genre.getId() > 5) {
                 log.error("Ошибка в данных запроса к эндпоинту:{} /films ', : '{}'", method, film);
                 throw new ValidationException("Непраильно задана Genre");
             }
