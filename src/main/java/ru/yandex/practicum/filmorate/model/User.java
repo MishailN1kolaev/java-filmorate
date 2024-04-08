@@ -1,34 +1,31 @@
 package ru.yandex.practicum.filmorate.model;
 
-import jakarta.validation.constraints.*;
-import lombok.*;
-
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PastOrPresent;
+
+@RequiredArgsConstructor
 @Data
-@AllArgsConstructor
 public class User {
-    @PositiveOrZero
-    private Long id;
+    private int id;
+    @NotBlank
     @Email
     private String email;
-    @NotNull
+    @NotBlank
     private String login;
     private String name;
     @PastOrPresent
+    @NotNull
     private LocalDate birthday;
-    private Set<Long> friends;
+    @JsonIgnore
+    private final Set<Integer> friends = new HashSet<>();
 
-    public void addFriend(Long id) {
-        friends.add(id);
-    }
-
-    public void removeFriend(Long id) {
-        friends.remove(id);
-    }
-
-    public int getFriendsQuantity() {
-        return friends.size();
-    }
 }

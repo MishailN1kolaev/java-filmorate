@@ -1,55 +1,87 @@
 package ru.yandex.practicum.filmorate.controller;
 
-import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import ru.yandex.practicum.filmorate.model.User;
+import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.service.UserService;
+
+import javax.validation.Valid;
 import java.util.List;
 
+@Slf4j
 @RestController
-@RequestMapping("/users")
-@RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
 
-    @PostMapping
-    public User createUser(@Valid @RequestBody User user) {
-        return userService.createUser(user);
+    @Autowired
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
-    @GetMapping
+    @GetMapping("/users")
     public List<User> getUsers() {
-        return userService.getUsers();
+        log.info("Получен запрос к эндпоинту: GET /users '");
+        return userService.getAllUser();
     }
 
-    @PutMapping
+    @GetMapping("/users/{id}")
+    public User getUser(@PathVariable int id) {
+        log.info("Получен запрос к эндпоинту: GET /users/{id}");
+        User user = userService.getUserById(id);
+        log.info("Ответ: GET /users/{id} ', '{}' ",user);
+        return user;
+    }
+
+    @PostMapping("/users")
+    public User addUser(@Valid @RequestBody User user) {
+        log.info("Получен запрос к эндпоинту: POST /users ', Строка параметров запроса: '{}'", user);
+        User newUser = userService.addUser(user);
+        log.info("Ответ на запрос к эндпоинту: POST /users ', '{}'", user);
+        return newUser;
+    }
+
+    @PutMapping("/users")
     public User updateUser(@Valid @RequestBody User user) {
-        return userService.updateUser(user);
+        log.info("Получен запрос к эндпоинту: PUT /users ', Строка параметров запроса: '{}'", user);
+        User updUser = userService.updateUser(user);
+        log.info("Ответ на запрос к эндпоинту: PUT /users ', Строка параметров запроса: '{}'", updUser);
+        return updUser;
     }
 
-    @GetMapping("/{id}")
-    public User getUserById(@PathVariable Long id) {
-        return userService.getUserById(id);
+   @PutMapping("/users/{id}/friends/{friendId}")
+   public User addUserFriend(@PathVariable int id, @PathVariable int friendId) {
+       log.info("Получен запрос к эндпоинту: PUT /users/{}/friends/{} '", id, friendId);
+       return userService.addFriendById(id,friendId);
+   }
+
+    @DeleteMapping("/users/{id}/friends/{friendId}")
+    public User deleteUserFriendById(@PathVariable int id, @PathVariable int friendId) {
+        log.info("Получен запрос к эндпоинту: DELETE /users/{}/friends/{} '", id, friendId);
+        return userService.deleteFriendById(id, friendId);
     }
 
-    @PutMapping("/{id}/friends/{friendId}")
-    public void addFriend(@PathVariable Long id, @PathVariable Long friendId) {
-        userService.addFriend(id, friendId);
+    @GetMapping("/users/{id}/friends")
+    public List<User> getUserFriends(@PathVariable int id) {
+        log.info("Получен запрос к эндпоинту: GET /users/{}/friends '", id);
+        return userService.getAllFriends(id);
     }
 
-    @DeleteMapping("/{id}/friends/{friendId}")
-    public void removeFriend(@PathVariable Long id, @PathVariable Long friendId) {
-        userService.deleteFriend(id, friendId);
+    @GetMapping("/users/{id}/friends/common/{otherId}")
+    public List<User> getCommonFriends(@PathVariable int id, @PathVariable int otherId) {
+        return userService.getСommonFriends(id, otherId);
     }
 
-    @GetMapping("/{id}/friends")
-    public List<User> getFriends(@PathVariable Long id) {
-        return userService.getFriends(id);
+    @DeleteMapping("/users")
+    public void deleteAllUsers() {
+        log.info("Получен запрос к эндпоинту: DELETE /users ");
+        userService.deleteAllUsers();
     }
 
-    @GetMapping("/{id}/friends/common/{otherId}")
-    public List<User> getCommonFriends(@PathVariable Long id, @PathVariable Long otherId) {
-        return userService.getCommonFriends(id, otherId);
+    @DeleteMapping("/users/{id}")
+    public void deleteUserById(@PathVariable int id) {
+        log.info("Получен запрос к эндпоинту: DELETE /users/{id} ");
+        userService.deleteUserById(id);
     }
+
 }
